@@ -7,13 +7,17 @@
             margin: 0;
             font-family: Arial, sans-serif;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
         }
 
         .full-screen {
-            height: 100%;
-            background-color: #000;
-            font-size: 42px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 900;
+            line-height: 1.2;
+            letter-spacing: 4px;
             word-break: break-all;
         }
 
@@ -31,9 +35,10 @@
 <script> FlareLane.initialize({ projectId: "c2a83003-fc8a-4871-bb65-72d835ac7893" }); </script>
 
 <script>
+    const row = 10;
+    const col = 15;
     const changeInterval = 33;
-    const charactersCount = 3000;
-    const updateCount = 5;
+    const updateCount = 2;
     const characters = printUnicodeRange(0xAC00, 0xD7A3);
     let spans = null;
 
@@ -66,11 +71,15 @@
     function createInitialText() {
         const container = document.getElementById('randomTextContainer');
 
-        for (let i = 0; i < charactersCount; i++) {
-            const span = document.createElement('span');
-            span.textContent = generateRandomCharacter();
-            span.style.color = generateRandomGrayScaleColor();
-            container.appendChild(span);
+        for (let i = 0; i < row; i++) {
+            for (let j = 0; j < col) {
+                const span = document.createElement('span');
+                span.textContent = generateRandomCharacter();
+                span.style.color = generateRandomGrayScaleColor();
+                container.appendChild(span);
+            }
+            const br = document.createElement('br');
+            container.appendChild(br);
         }
     }
 
