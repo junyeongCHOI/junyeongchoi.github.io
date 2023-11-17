@@ -36,9 +36,19 @@
 <script src="https://cdn.flarelane.com/WebSDK-staging.js" charset="UTF-8"></script>
 <script> FlareLane.initialize({ projectId: "c2a83003-fc8a-4871-bb65-72d835ac7893" }); </script>
 <script>
+    function printUnicodeRange(start, end) {
+        let result = '';
+        for (let i = start; i <= end; i++) {
+            result += String.fromCharCode(i);
+        }
+        return result;
+    }
+    
+    const characters = printUnicodeRange(0xAC00, 0xD7A3);
+    const characterslength = characters.length;
+    
     function generateRandomCharacter() {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz가나다라마바사아자차카타파하ぁあいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん';
-        return characters.charAt(Math.floor(Math.random() * characters.length));
+        return characters.charAt(Math.floor(Math.random() * characterslength));
     }
 
     function generateRandomGrayScaleColor() {
