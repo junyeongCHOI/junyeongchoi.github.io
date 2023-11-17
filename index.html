@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="ko">>
+<head
     <style>
         body, html {
             height: 100%;
@@ -18,7 +18,7 @@
         }
 
         .full-screen span {
-            transition: color 0.1s ease-in-out;
+            transition: color 0.3s ease-in-out;
         }
     </style>
 </head>
@@ -31,8 +31,9 @@
 <script> FlareLane.initialize({ projectId: "c2a83003-fc8a-4871-bb65-72d835ac7893" }); </script>
 
 <script>
-    const changeInterval = 1000;
-    const charactersCount = 1000;
+    const changeInterval = 33;
+    const charactersCount = 3000;
+    const updateCount = 3;
     const characters = printUnicodeRange(0xAC00, 0xD7A3);
     let spans = null;
 
@@ -57,7 +58,7 @@
     }
 
     function generateRandomGrayScaleColor() {
-        const brightness = getRandomIntInclusive(50, 205);
+        const brightness = getRandomIntInclusive(25, 230);
         
         return 'rgb(' + brightness + ',' + brightness + ',' + brightness + ')';
     }
@@ -75,9 +76,6 @@
 
     function updateRandomText() {
         spans = spans ?? document.querySelectorAll('#randomTextContainer span');
-
-        const updateCount = Math.floor(spans.length * 0.05);
-
         for (let i = 0; i < updateCount; i++) {
             const randomIndex = getRandomIntInclusive(0, spans.length);
             const span = spans[randomIndex];
