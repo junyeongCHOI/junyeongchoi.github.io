@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .full-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            background-color: black;
+            color: white;
+            font-size: 24px;
+        }
+
+        .random-text {
+            color: grey;
+        }
+    </style>
+</head>
+<body>
+
+<div class="full-screen" id="randomTextContainer">
+</div>
+
+<script>
+    function generateRandomCharacter() {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz가나다라마바사아자차카타파하ぁあいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん';
+        return characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+
+    function generateRandomGrayScaleColor() {
+        const brightness = Math.floor(Math.random() * 256);
+        return 'rgb(' + brightness + ',' + brightness + ',' + brightness + ')';
+    }
+
+    function createInitialText() {
+        const container = document.getElementById('randomTextContainer');
+        for (let i = 0; i < 100; i++) {
+            const span = document.createElement('span');
+            span.className = 'random-text';
+            span.textContent = generateRandomCharacter();
+            span.style.color = generateRandomGrayScaleColor();
+            container.appendChild(span);
+        }
+    }
+
+    function updateRandomText() {
+        const spans = document.querySelectorAll('#randomTextContainer .random-text');
+        const updateCount = Math.floor(spans.length * 0.15);
+
+        for (let i = 0; i < updateCount; i++) {
+            const randomIndex = Math.floor(Math.random() * spans.length);
+            spans[randomIndex].textContent = generateRandomCharacter();
+            spans[randomIndex].style.color = generateRandomGrayScaleColor();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', createInitialText);
+  
+    setInterval(updateRandomText, 1000);
+</script>
+
+
+</body>
+</html>
