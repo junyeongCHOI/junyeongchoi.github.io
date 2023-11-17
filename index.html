@@ -11,57 +11,59 @@
 
         .full-screen {
             height: 100%;
-            background-color: #222;
-            font-size: 42px;
-            line-height: 1.2;
-            letter-spacing: 11px;
+            background-color: #fff;
+            font-size: 58px;
             word-break: break-all;
             font-weight: 700;
+            transition: color 0.1s ease-in-out;
         }
-
-        @keyframes fadeInOut {
-            0% { opacity: 1; }
-            50% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-       .random-text {
-            animation: fadeInOut 1s ease;
-       }
     </style>
 </head>
 <body>
 
 <div class="full-screen" id="randomTextContainer">
 </div>
+
 <script src="https://cdn.flarelane.com/WebSDK-staging.js" charset="UTF-8"></script>
 <script> FlareLane.initialize({ projectId: "c2a83003-fc8a-4871-bb65-72d835ac7893" }); </script>
+
 <script>
+    const changeInterval = 1000;
+    const charactersCount = 500;
+    const characters = printUnicodeRange(0xAC00, 0xD7A3);
+    let spans = null;
+
+    function getRandomIntInclusive(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
     function printUnicodeRange(start, end) {
         let result = '';
+
         for (let i = start; i <= end; i++) {
             result += String.fromCharCode(i);
         }
+
         return result;
     }
     
-    const characters = printUnicodeRange(0xAC00, 0xD7A3);
-    const characterslength = characters.length;
-    
     function generateRandomCharacter() {
-        return characters.charAt(Math.floor(Math.random() * characterslength));
+        return characters.charAt(getRandomIntInclusive(0, characters.length));
     }
 
     function generateRandomGrayScaleColor() {
-        const brightness = Math.floor(Math.random() * 256);
+        const brightness = getRandomIntInclusive(50, 205);
+        
         return 'rgb(' + brightness + ',' + brightness + ',' + brightness + ')';
     }
 
     function createInitialText() {
         const container = document.getElementById('randomTextContainer');
-        for (let i = 0; i < 1000; i++) {
+
+        for (let i = 0; i < charactersCount; i++) {
             const span = document.createElement('span');
-            span.className = 'random-text';
             span.textContent = generateRandomCharacter();
             span.style.color = generateRandomGrayScaleColor();
             container.appendChild(span);
@@ -69,28 +71,22 @@
     }
 
     function updateRandomText() {
-        const spans = document.querySelectorAll('#randomTextContainer .random-text');
-        const updateCount = Math.floor(spans.length * 0.15);
+        spans = spans ?? document.querySelectorAll('#randomTextContainer span');
+
+        const updateCount = Math.floor(spans.length * 0.05);
 
         for (let i = 0; i < updateCount; i++) {
-            const randomIndex = Math.floor(Math.random() * spans.length);
+            const randomIndex = getRandomIntInclusive(0, spans.length);
             const span = spans[randomIndex];
-
-            // 애니메이션을 재시작하기 위해 클래스를 제거하고 다시 추가합니다.
-            span.classList.remove('random-text');
-            setTimeout(() => {
-                span.textContent = generateRandomCharacter();
-                span.style.color = generateRandomGrayScaleColor();
-                span.classList.add('random-text');
-            }, 1);
+            span.textContent = generateRandomCharacter();
+            span.style.color = generateRandomGrayScaleColor();
         }
     }
 
-    document.addEventListener('DOMContentLoaded', createInitialText);
-  
-    setInterval(updateRandomText, 1000);
+    document.addEventListener('DOMContentLoaded', () => {
+        createInitialText();
+        setInterval(updateRandomText, changeInterval);
+    });
 </script>
-
-
 </body>
 </html>
