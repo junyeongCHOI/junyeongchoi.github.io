@@ -10,25 +10,29 @@
         }
 
         .full-screen {
-            display: flex;
-            justify-content: center;
-            align-items: center;
             height: 100%;
-            background-color: black;
-            color: white;
+            background-color: #222;
             font-size: 24px;
+            word-break: break-all;
         }
 
-        .random-text {
-            color: grey;
+        @keyframes fadeInOut {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
         }
+
+       .random-text {
+            animation: fadeInOut 1s ease;
+       }
     </style>
 </head>
 <body>
 
 <div class="full-screen" id="randomTextContainer">
 </div>
-
+<script src="https://cdn.flarelane.com/WebSDK-staging.js" charset="UTF-8"></script>
+<script> FlareLane.initialize({ projectId: "c2a83003-fc8a-4871-bb65-72d835ac7893" }); </script>
 <script>
     function generateRandomCharacter() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz가나다라마바사아자차카타파하ぁあいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん';
@@ -42,9 +46,9 @@
 
     function createInitialText() {
         const container = document.getElementById('randomTextContainer');
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 10000; i++) {
             const span = document.createElement('span');
-            span.className = 'random-text';
+            span.className = '.random-text';
             span.textContent = generateRandomCharacter();
             span.style.color = generateRandomGrayScaleColor();
             container.appendChild(span);
@@ -57,8 +61,15 @@
 
         for (let i = 0; i < updateCount; i++) {
             const randomIndex = Math.floor(Math.random() * spans.length);
-            spans[randomIndex].textContent = generateRandomCharacter();
-            spans[randomIndex].style.color = generateRandomGrayScaleColor();
+            const span = spans[randomIndex];
+
+            // 애니메이션을 재시작하기 위해 클래스를 제거하고 다시 추가합니다.
+            span.classList.remove('random-text');
+            setTimeout(() => {
+                span.textContent = generateRandomCharacter();
+                span.style.color = generateRandomGrayScaleColor();
+                span.classList.add('random-text');
+            }, 1);
         }
     }
 
