@@ -11,10 +11,13 @@
 
         .full-screen {
             height: 100%;
-            background-color: #fff;
-            font-size: 58px;
-            word-break: break-all;
+            background-color: #000;
+            font-size: 42px;
             font-weight: 700;
+            word-break: break-all;
+        }
+
+        .full-screen span {
             transition: color 0.1s ease-in-out;
         }
     </style>
@@ -29,7 +32,7 @@
 
 <script>
     const changeInterval = 1000;
-    const charactersCount = 500;
+    const charactersCount = 1000;
     const characters = printUnicodeRange(0xAC00, 0xD7A3);
     let spans = null;
 
