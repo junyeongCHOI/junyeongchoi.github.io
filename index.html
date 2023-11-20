@@ -66,7 +66,7 @@
     }
     
     function generateRandomCharacter() {
-        return characters.charAt(getRandomIntInclusive(0, characters.length));
+        return characters.charAt(getRandomIntInclusive(0, characters.length - 1));
     }
 
     function generateRandomGrayScaleColor() {
@@ -93,7 +93,7 @@
     function updateRandomText() {
         spans = spans ?? document.querySelectorAll('#randomTextContainer span');
         for (let i = 0; i < updateCount; i++) {
-            const randomIndex = getRandomIntInclusive(0, spans.length);
+            const randomIndex = getRandomIntInclusive(0, spans.length - 1);
             const span = spans[randomIndex];
             span.textContent = generateRandomCharacter();
             span.style.color = generateRandomGrayScaleColor();
