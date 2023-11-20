@@ -2,8 +2,8 @@
     "name": ">_-",
     "short_name": ">_-",
     "icons": [{
-        "src": "/icon-144x144.png",
-        "sizes": "144x144",
+        "src": "/icon-192x192.png",
+        "sizes": "192x192",
         "type": "image/png"
     }],
     "display": "standalone"
