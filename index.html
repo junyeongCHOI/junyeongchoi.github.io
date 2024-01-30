@@ -115,14 +115,18 @@
       sniff(
         "console.log",
         (arg) => {
-          bg.innerHTML += `<div>[LOG : ${new Date()}] ${JSON.stringify(arg)}</div>`;
+          bg.innerHTML += `<div>[LOG : ${new Date().toLocaleTimeString()}] ${JSON.stringify(
+            arg
+          )}</div>`;
         },
         () => {}
       );
       sniff(
         "console.error",
         (arg) => {
-          bg.innerHTML += `<div>[ERROR ${}] ${JSON.stringify(arg)}</div>`;
+          bg.innerHTML += `<div>[ERROR ${new Date().toLocaleTimeString()}] ${JSON.stringify(
+            arg
+          )}</div>`;
         },
         () => {}
       );
