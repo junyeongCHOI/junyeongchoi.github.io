@@ -1,145 +1,200 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
+  <head>
     <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
     />
     <title>>_-</title>
     <style>
-        body, html {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #000;
-        }
+      body,
+      html {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: #000;
+      }
 
-        .bg {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            font-size: 10px;
-            line-height: 1.4;
-            color: rgba(255, 255, 255, 0.3);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-        }
+      .bg {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 10px;
+        line-height: 1.4;
+        color: rgba(255, 255, 255, 0.3);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
 
-        .screen {
-            font-size: 14px;
-            font-weight: 900;
-            line-height: 1.2;
-            letter-spacing: 4px;
-            word-break: break-all;
-        }
+      .screen {
+        font-size: 14px;
+        font-weight: 900;
+        line-height: 1.2;
+        letter-spacing: 4px;
+        word-break: break-all;
+      }
 
-        .screen span {
-            transition: color 0.7s ease-in-out;
-        }
+      .screen span {
+        transition: color 0.7s ease-in-out;
+      }
+
+      .btn {
+        margin-top: 16px;
+        padding: 8px;
+        font-size: 14px;
+        font-weight: 900;
+        cursor: pointer;
+      }
     </style>
     <link rel="manifest" href="/manifest.json" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="theme-color" content="#000" />
-    <link rel="shortcut icon" href="favicon-32x32.png" type="image/x-icon">
-    <link rel="icon" href="favicon-32x32.png" type="image/x-icon">
-</head>
-<body>
-<div class="bg" id="bg"></div>
-<div class="screen" id="randomTextContainer">
-</div>
+    <link rel="shortcut icon" href="favicon-32x32.png" type="image/x-icon" />
+    <link rel="icon" href="favicon-32x32.png" type="image/x-icon" />
+  </head>
+  <body>
+    <div class="bg" id="bg"></div>
+    <div class="screen" id="rtc"></div>
+    <div class="btn" id="sid">SETUSERID</div>
+    <div class="btn" id="sts">SETTAGS</div>
+    <div class="btn" id="te">TRACKEVENT</div>
 
-<script src="https://cdn.flarelane.com/WebSDK-staging.js" charset="UTF-8"></script>
-<script> FlareLane.initialize({ projectId: "c2a83003-fc8a-4871-bb65-72d835ac7893" }); </script>
-<!-- <script src="https://cdn.flarelane.com/WebSDK.js" charset="UTF-8"></script> -->
-<!-- <script> FlareLane.initialize({ projectId: "a62ed0d8-4b29-4cef-9b6f-0ef71a90392a" }); </script> -->
+    <script
+      src="https://cdn.flarelane.com/WebSDK-staging.js"
+      charset="UTF-8"
+    ></script>
+    <script>
+      FlareLane.initialize({
+        projectId: "c2a83003-fc8a-4871-bb65-72d835ac7893",
+      });
+    </script>
+    <!-- <script src="https://cdn.flarelane.com/WebSDK.js" charset="UTF-8"></script> -->
+    <!-- <script> FlareLane.initialize({ projectId: "a62ed0d8-4b29-4cef-9b6f-0ef71a90392a" }); </script> -->
 
-<script>
-    const bg = document.getElementById("bg");
-    function sniff(t, b, a) {
-        typeof eval === 'function' && eval('(function(){if(typeof ' + t + '!=="function")return;const o=' + t + ';' + t + '=function(){typeof b==="function"&&b(arguments);const r=o.apply(this, arguments);typeof a==="function"&&a(r);}})();');
-    }
-    sniff(
-        'console.log',
-        (arg) => { bg.innerHTML += `<div>[LOG]${JSON.stringify(arg)}</div>` },
-        () => {},
-    );
-    sniff(
-        'console.error',
-        (arg) => { bg.innerHTML += `<div>[ERROR]${JSON.stringify(arg)}</div>` },
-        () => {},
-    );
-    
-    const row = 10;
-    const col = 15;
-    const changeInterval = 33;
-    const updateCount = 2;
-    const characters = printUnicodeRange(0xAC00, 0xD7A3);
-    let spans = null;
+    <script>
+      const bg = document.getElementById("bg");
+      const sidbtn = document.getElementById("sid");
+      const stsbtn = document.getElementById("sts");
+      const tebtn = document.getElementById("te");
 
-    function getRandomIntInclusive(min, max) {
+      function sniff(t, b, a) {
+        typeof eval === "function" &&
+          eval(
+            "(function(){if(typeof " +
+              t +
+              '!=="function")return;const o=' +
+              t +
+              ";" +
+              t +
+              '=function(){typeof b==="function"&&b(arguments);const r=o.apply(this, arguments);typeof a==="function"&&a(r);}})();'
+          );
+      }
+      sniff(
+        "console.log",
+        (arg) => {
+          bg.innerHTML += `<div>[LOG]${JSON.stringify(arg)}</div>`;
+        },
+        () => {}
+      );
+      sniff(
+        "console.error",
+        (arg) => {
+          bg.innerHTML += `<div>[ERROR]${JSON.stringify(arg)}</div>`;
+        },
+        () => {}
+      );
+
+      const row = 10;
+      const col = 15;
+      const changeInterval = 33;
+      const updateCount = 2;
+      const characters = printUnicodeRange(0xac00, 0xd7a3);
+      let spans = null;
+
+      function getRandomIntInclusive(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+      }
 
-    function printUnicodeRange(start, end) {
-        let result = '';
+      function printUnicodeRange(start, end) {
+        let result = "";
 
         for (let i = start; i <= end; i++) {
-            result += String.fromCharCode(i);
+          result += String.fromCharCode(i);
         }
 
         return result;
-    }
-    
-    function generateRandomCharacter() {
-        return characters.charAt(getRandomIntInclusive(0, characters.length - 1));
-    }
+      }
 
-    function generateRandomGrayScaleColor() {
+      function generateRandomCharacter() {
+        return characters.charAt(
+          getRandomIntInclusive(0, characters.length - 1)
+        );
+      }
+
+      function generateRandomGrayScaleColor() {
         const brightness = getRandomIntInclusive(25, 230);
-        
-        return 'rgb(' + brightness + ',' + brightness + ',' + brightness + ')';
-    }
 
-    function createInitialText() {
-        const container = document.getElementById('randomTextContainer');
+        return "rgb(" + brightness + "," + brightness + "," + brightness + ")";
+      }
+
+      function createInitialText() {
+        const container = document.getElementById("rtc");
 
         for (let i = 0; i < row; i++) {
-            for (let j = 0; j < col; j++) {
-                const span = document.createElement('span');
-                span.textContent = generateRandomCharacter();
-                span.style.color = generateRandomGrayScaleColor();
-                container.appendChild(span);
-            }
-            const br = document.createElement('br');
-            container.appendChild(br);
-        }
-    }
-
-    function updateRandomText() {
-        spans = spans ?? document.querySelectorAll('#randomTextContainer span');
-        for (let i = 0; i < updateCount; i++) {
-            const randomIndex = getRandomIntInclusive(0, spans.length - 1);
-            const span = spans[randomIndex];
+          for (let j = 0; j < col; j++) {
+            const span = document.createElement("span");
             span.textContent = generateRandomCharacter();
             span.style.color = generateRandomGrayScaleColor();
+            container.appendChild(span);
+          }
+          const br = document.createElement("br");
+          container.appendChild(br);
         }
-    }
+      }
 
-    document.addEventListener('DOMContentLoaded', () => {
+      function updateRandomText() {
+        spans = spans ?? document.querySelectorAll("#rtc span");
+        for (let i = 0; i < updateCount; i++) {
+          const randomIndex = getRandomIntInclusive(0, spans.length - 1);
+          const span = spans[randomIndex];
+          span.textContent = generateRandomCharacter();
+          span.style.color = generateRandomGrayScaleColor();
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
         createInitialText();
         setInterval(updateRandomText, changeInterval);
-    });
-</script>
-</body>
+      });
+
+      sidbtn.addEventListener("click", () => {
+        FlareLane.setUserId(
+          characters.charAt(getRandomIntInclusive(0, characters.length - 1))
+        );
+      });
+      stsbtn.addEventListener("click", () => {
+        const s = characters.charAt(461);
+        FlareLane.setTags({
+          [s]: s,
+        });
+      });
+      tebtn.addEventListener("click", () => {
+        FlareLane.trackEvent(
+          characters.charAt(getRandomIntInclusive(0, characters.length - 1))
+        );
+      });
+    </script>
+  </body>
 </html>
