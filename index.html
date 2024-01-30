@@ -20,7 +20,6 @@
         align-items: center;
         flex-direction: column;
         background-color: #000;
-        z-index: -1;
       }
 
       .bg {
@@ -35,6 +34,7 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
+        z-index: -1;
       }
 
       .screen {
@@ -51,6 +51,7 @@
       }
 
       .btn {
+        position: relative;
         margin-top: 8px;
         padding: 8px;
         font-size: 12px;
@@ -183,19 +184,15 @@
       });
 
       sidbtn.addEventListener("click", () => {
-        FlareLane.setUserId(
-          characters.charAt(getRandomIntInclusive(0, characters.length - 1))
-        );
+        FlareLane.setUserId(generateRandomCharacter());
       });
       stsbtn.addEventListener("click", () => {
         FlareLane.setTags({
-          한글: getRandomIntInclusive(0, characters.length - 1),
+          한글: generateRandomCharacter(),
         });
       });
       tebtn.addEventListener("click", () => {
-        FlareLane.trackEvent(
-          characters.charAt(getRandomIntInclusive(0, characters.length - 1))
-        );
+        FlareLane.trackEvent(generateRandomCharacter());
       });
     </script>
   </body>
