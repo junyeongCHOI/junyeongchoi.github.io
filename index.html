@@ -55,9 +55,16 @@
         margin-top: 8px;
         padding: 8px;
         font-size: 12px;
-        font-weight: 900;
+        font-weight: 700;
         cursor: pointer;
         color: rgba(255, 255, 255, 0.7);
+      }
+
+      .did {
+        font-size: 12px;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 16px;
       }
     </style>
     <link rel="manifest" href="/manifest.json" />
@@ -68,6 +75,7 @@
   </head>
   <body>
     <div class="bg" id="bg"></div>
+    <div class="did" id="did"></div>
     <div class="screen" id="rtc"></div>
     <div class="btn" id="sid">SETUSERID</div>
     <div class="btn" id="sts">SETTAGS</div>
@@ -87,6 +95,7 @@
 
     <script>
       const bg = document.getElementById("bg");
+      const did = document.getElementById("did");
       const sidbtn = document.getElementById("sid");
       const stsbtn = document.getElementById("sts");
       const tebtn = document.getElementById("te");
@@ -186,13 +195,19 @@
       sidbtn.addEventListener("click", () => {
         FlareLane.setUserId(generateRandomCharacter());
       });
+
       stsbtn.addEventListener("click", () => {
         FlareLane.setTags({
           한글: generateRandomCharacter(),
         });
       });
+
       tebtn.addEventListener("click", () => {
         FlareLane.trackEvent(generateRandomCharacter());
+      });
+
+      FlareLane.getDeviceId((id) => {
+        did.innerText = id;
       });
     </script>
   </body>
