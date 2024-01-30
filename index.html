@@ -185,9 +185,8 @@
         );
       });
       stsbtn.addEventListener("click", () => {
-        const s = characters.charAt(461);
         FlareLane.setTags({
-          [s]: s,
+          한글: getRandomIntInclusive(0, characters.length - 1),
         });
       });
       tebtn.addEventListener("click", () => {
