@@ -20,6 +20,7 @@
         font-family: Arial, sans-serif;
         overflow: hidden;
         background-color: #000;
+        user-select: none;
       }
 
       .log {
@@ -28,14 +29,16 @@
         padding: 8px 12px;
         font-size: 12px;
         line-height: 1.2;
-        word-break: break-all;
         color: #fff;
         overflow: auto;
         scroll-behavior: smooth;
+        opacity: 0.75;
       }
 
-      .log > div {
+      .log > pre {
         margin: 8px 0;
+        word-break: break-all;
+        white-space: pre-wrap;
       }
 
       .cont {
@@ -43,14 +46,13 @@
         transform: translate(-50%, -50%);
         top: 50%;
         left: 50%;
-        width: 300px;
+        width: 284px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 16px;
+        padding: 20px 10px;
         background-color: #000;
-        box-shadow: 0 0 4px 1px rgba(255, 255, 255, 0.3);
-        border-radius: 6px;
+        box-shadow: 0 0 2px 1px rgba(255, 255, 255, 0.25);
       }
 
       .screen {
@@ -59,7 +61,7 @@
         line-height: 1.2;
         letter-spacing: 4px;
         word-break: break-all;
-        margin-bottom: 16px;
+        margin-bottom: 12px;
       }
 
       .screen span {
@@ -67,12 +69,19 @@
       }
 
       .btn {
-        margin-top: 8px;
+        width: 100%;
+        text-align: center;
+        margin-top: 4px;
         padding: 8px;
         font-size: 12px;
         font-weight: 700;
         cursor: pointer;
         color: #fff;
+        transition: background-color 0.1s ease-in-out;
+      }
+
+      .btn:hover {
+        background-color: rgba(255, 255, 255, 0.15);
       }
 
       .did {
@@ -85,6 +94,25 @@
       .error {
         color: red;
       }
+
+      .gtb {
+        border: 1px solid transparent;
+        text-align: center;
+        animation: gt-b 12s infinite linear;
+        border-image-slice: 1;
+      }
+
+      @keyframes gt-b {
+        0% {
+          border-image: linear-gradient(to right, #fff, #000) 1;
+        }
+        50% {
+          border-image: linear-gradient(to right, #000, #fff) 1;
+        }
+        100% {
+          border-image: linear-gradient(to right, #fff, #000) 1;
+        }
+      }
     </style>
     <link rel="manifest" href="/manifest.json" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -94,8 +122,8 @@
   </head>
   <body>
     <div class="log" id="log"></div>
-    <div class="cont">
-      <div class="did" id="did"></div>
+    <div class="cont gtb">
+      <div class="did" id="did">Empty Device ID</div>
       <div class="screen" id="rtc"></div>
       <div class="btn" id="sid">SETUSERID</div>
       <div class="btn" id="sts">SETTAGS</div>
@@ -120,6 +148,7 @@
       const sidbtn = document.getElementById("sid");
       const stsbtn = document.getElementById("sts");
       const tebtn = document.getElementById("te");
+      const container = document.getElementById("rtc");
 
       function sniff(t, b, a) {
         typeof eval === "function" &&
@@ -136,18 +165,22 @@
       sniff(
         "console.log",
         (arg) => {
-          log.innerHTML += `<div>${new Date().toLocaleTimeString()} [LOG] ${JSON.stringify(
-            arg
-          )}</div>`;
+          log.innerHTML += `<pre>${new Date().toLocaleTimeString()} [LOG] ${JSON.stringify(
+            arg,
+            null,
+            2
+          )}</pre>`;
         },
         () => {}
       );
       sniff(
         "console.error",
         (arg) => {
-          log.innerHTML += `<div class="error">${new Date().toLocaleTimeString()} [ERROR] ${JSON.stringify(
-            arg
-          )}</div>`;
+          log.innerHTML += `<pre class="error">${new Date().toLocaleTimeString()} [ERROR] ${JSON.stringify(
+            arg,
+            null,
+            2
+          )}</pre>`;
         },
         () => {}
       );
@@ -188,8 +221,6 @@
       }
 
       function createInitialText() {
-        const container = document.getElementById("rtc");
-
         for (let i = 0; i < row; i++) {
           for (let j = 0; j < col; j++) {
             const span = document.createElement("span");
@@ -233,7 +264,7 @@
         logToBottom();
       });
 
-      tebtn.addEventListener("click", () => {
+      tebtn.addEventListener("click", (e) => {
         FlareLane.trackEvent(generateRandomCharacter());
         logToBottom();
       });
