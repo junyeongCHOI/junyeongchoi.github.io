@@ -31,6 +31,9 @@
         word-break: break-all;
         color: #fff;
         overflow: auto;
+        scroll-behavior: smooth;
+        box-shadow: 0 0 4px 1px rgba(255, 255, 255, 0.3);
+        border-radius: 6px;
       }
 
       .log > div {
@@ -209,6 +212,10 @@
         }
       }
 
+      function logToBottom() {
+        log.scrollTo(0, log.clientHeight);
+      }
+
       document.addEventListener("DOMContentLoaded", () => {
         createInitialText();
         setInterval(updateRandomText, changeInterval);
@@ -216,16 +223,19 @@
 
       sidbtn.addEventListener("click", () => {
         FlareLane.setUserId(generateRandomCharacter());
+        logToBottom();
       });
 
       stsbtn.addEventListener("click", () => {
         FlareLane.setTags({
-          뒓: generateRandomCharacter(),
+          "`m@~": generateRandomCharacter(),
         });
+        logToBottom();
       });
 
       tebtn.addEventListener("click", () => {
         FlareLane.trackEvent(generateRandomCharacter());
+        logToBottom();
       });
 
       FlareLane.getDeviceId((id) => {
