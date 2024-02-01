@@ -251,20 +251,20 @@
         setInterval(updateRandomText, changeInterval);
       });
 
-      sidbtn.addEventListener("click", () => {
-        FlareLane.setUserId(generateRandomCharacter());
+      sidbtn.addEventListener("click", async () => {
+        await FlareLane.setUserId(generateRandomCharacter());
         logToBottom();
       });
 
-      stsbtn.addEventListener("click", () => {
-        FlareLane.setTags({
+      stsbtn.addEventListener("click", async () => {
+        await FlareLane.setTags({
           "`m@~": generateRandomCharacter(),
         });
         logToBottom();
       });
 
-      tebtn.addEventListener("click", (e) => {
-        FlareLane.trackEvent(generateRandomCharacter());
+      tebtn.addEventListener("click", async () => {
+        await FlareLane.trackEvent(generateRandomCharacter());
         logToBottom();
       });
 
