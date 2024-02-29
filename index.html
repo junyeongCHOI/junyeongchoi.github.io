@@ -129,6 +129,11 @@
       <div class="btn" id="te">TRACKEVENT</div>
     </div>
 
+    <script>
+      window.FlareLaneDeferred = window.FlareLaneDeferred || [];
+      FlareLaneDeferred.push((FlareLane) => FlareLane.trackEvent("deferred"));
+    </script>
+
     <script
       src="https://cdn.flarelane.com/WebSDK-staging.js"
       charset="UTF-8"
