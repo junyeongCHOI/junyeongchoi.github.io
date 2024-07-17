@@ -127,6 +127,7 @@
       <div class="btn" id="sid">SETUSERID</div>
       <div class="btn" id="sts">SETTAGS</div>
       <div class="btn" id="te">TRACKEVENT</div>
+      <div class="btn" id="iam">DISPLAYINAPP</div>
     </div>
 
     <script>
@@ -154,7 +155,8 @@
       const stsbtn = document.getElementById("sts");
       const tebtn = document.getElementById("te");
       const container = document.getElementById("rtc");
-
+      const iambtn = document.getElementById("iam");
+      
       function sniff(t, b, a) {
         typeof eval === "function" &&
           eval(
@@ -271,6 +273,11 @@
 
       tebtn.addEventListener("click", async () => {
         await FlareLane.trackEvent(generateRandomCharacter());
+        logToBottom();
+      });
+      
+      iamBtn.addEventListener("click", async () => {
+        FlareLane.displayInApp("home");
         logToBottom();
       });
 
