@@ -141,6 +141,7 @@
     <script>
       FlareLane.initialize({
         projectId: "c2a83003-fc8a-4871-bb65-72d835ac7893",
+        inAppInsertStrategy: 'write',
       });
       FlareLane.displayInApp("home");
       FlareLane.setInAppMessageActionHandler((aid) => { console.log(aid); })
